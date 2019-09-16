@@ -4,24 +4,26 @@ class Mover {
   float V_max;
   PVector acceleration;
   float A_max;
-  float diameter;
   float radius;
+  float mass;
   
   // Class Constructor
-  Mover(PVector init_P, PVector init_V, PVector init_A, float init_A_max, float init_V_max, float size){
+  Mover(PVector init_P, PVector init_V, PVector init_A, float init_A_max, float init_V_max, float size, float init_mass){
     location = init_P;
     velocity = init_V;
     acceleration = init_A;
     A_max = init_A_max;
     V_max = init_V_max;
+    
     radius = size;
+    mass = init_mass;
   };
   
   void display()
   {
     stroke(1);
     fill(175);
-    ellipseMode(RADIUS);
+    ellipseMode(CENTER);
     ellipse(location.x,location.y, radius,radius);
   };
   
@@ -59,6 +61,12 @@ class Mover {
   {
     velocity.add(acceleration);
     velocity.limit(V_max);
+    acceleration.mult(0);
+  };
+  
+  void applyForce(PVector force)
+  {
+    acceleration.add(PVector.div(force, mass));
   };
   
   void move()
